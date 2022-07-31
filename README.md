@@ -271,8 +271,8 @@ Purpose: Create a cron task on the machine running node validator that allows pi
     **CronTab**
     ![Cronjob](cronjob.png)  
     
-    **Pings**
-    ![Pings](_static/near/pings.png "Pings")  
+    **Check Pings on explorer**
+    ![Pings](node_pings.png)  
 
 ## II. Useful Tips
 1. SSH: you need to use ssh potocol to access your server by [Putty](https://www.hostinger.com/tutorials/how-to-use-putty-ssh).
