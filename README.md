@@ -203,6 +203,76 @@ Purpose: Deploy a new staking pool for your validator. Do operations on your sta
     ```  
     ![node balance](node_balance.png)
 
+### Challenge 004  
+Rewards: 15 Unlocked NEAR Points (UNP).  
+Submission: No submission is required for this challenge; it will be evaluated together with the challenge 005.  
+Purpose: Setup tools for monitoring node status. Install and use RPC on port 3030 to get useful information for keep your node working.  
+[Refered Document](https://github.com/near/stakewars-iii/blob/main/challenges/004.md)  
+
+- Setup NEAR-CLI: We will use this near CLI to run command for staking, check validator node's status and so on.  
+    ```sh
+    # install jq
+    apt install jq -y
+    
+    # Check your node version
+    curl -s http://127.0.0.1:3030/status | jq .version
+
+    # Check delegators and stake 
+    near view tsukemen1102.factory.shardnet.near get_accounts '{"from_index": 0, "limit": 10}' --accountId tsukemen1102.shardnet.near
+
+    # Check reason for validator kicked
+    curl -s -d '{"jsonrpc": "2.0", "method": "validators", "id": "dontcare", "params": [null]}' -H 'Content-Type: application/json' https://rpc.shardnet.near.org/ | jq -c '.result.prev_epoch_kickout[] | select(.account_id | contains ("tsukemen1102"))' | jq .reason
+
+    # Check blocks produced / expected 
+    curl -s -d '{"jsonrpc": "2.0", "method": "validators", "id": "dontcare", "params": [null]}' -H 'Content-Type: application/json' http://localhost:3030/ | jq -c '.result.current_validators[] | select(.account_id | contains ("tsukemen1102.factory.shardnet.near"))'
+    ```
+    ![node monitoring](node_monitor.png)
+
+
+### Challenge 005  
+Rewards: 10 Unlocked NEAR Points (UNP).  
+Submission: [Submit the form with your work.](https://docs.google.com/forms/d/e/1FAIpQLScp9JEtpk1Fe2P9XMaS9Gl6kl9gcGVEp3A5vPdEgxkHx3ABjg/viewform).  
+Purpose: Setup a running validator node for shardnet on any one of the most popular cloud providers and document the process to create an article about it.  
+[Refered Document](https://github.com/near/stakewars-iii/blob/main/challenges/005.md)  
+
+1. Signup AWS Account:  
+Go to [aws signup page](https://portal.aws.amazon.com/billing/signup#/start/email), input required information then do signup new account.  
+
+2. Launch EC2 instance:  
+After your account had been activated, go to AWS EC2 service to launch an EC2 instance.  
+Follow [this tutorial](https://docs.aws.amazon.com/efs/latest/ug/gs-step-one-create-ec2-resources.html) to launch new EC2 instance with below specifications.  
+- EC2 Instance System Requirements  
+  - Linux distribution: Ubuntu v20.x is referred (Free)
+  - 4-Core CPU with AVX support (Minimum EC2 c5.xlarge, reference: EC2 c5.2xlarge)
+  - 8 GB RAM
+  - 500 GB SSD (General Purpose SSD - Storage $0.08/GB-month)
+  - Minimum Monthly Cost: **165$** (~125$ EC2 c5.xlarge type + 40$ 500GB SSD)
+
+After start, access to instance bay SSH tool as screenshot. Then do following challenge 002->009.
+![AWS1](aws1.png)
+![AWS2](aws2.png)
+
+### Challenge 006  
+Rewards: 5 Unlocked NEAR Points (UNP).  
+Submission: [Submit the form with your work.](https://docs.google.com/forms/d/e/1FAIpQLScp9JEtpk1Fe2P9XMaS9Gl6kl9gcGVEp3A5vPdEgxkHx3ABjg/viewform).  
+Purpose: Create a cron task on the machine running node validator that allows ping to network automatically.  
+[Refered Document](https://github.com/near/stakewars-iii/blob/main/challenges/006.md)  
+
+- Create a cron job to run ping every epoch:
+    ```sh
+    crontab -e 
+    
+    # A ping issues a new proposal and updates the staking balances for your delegators. A ping should be issued each epoch to keep reported rewards current.
+    NEAR_ENV=shardnet  
+    # running every 15 minutes:
+    */15 * * * * near call tsukemen1102.factory.shardnet.near ping '{}' --accountId tsukemen1102.shardnet.near --gas=300000000000000 >> $HOME/cron.log
+    ```  
+    
+    **CronTab**
+    ![Cronjob](cronjob.png)  
+    
+    **Pings**
+    ![Pings](_static/near/pings.png "Pings")  
 
 ## II. Useful Tips
 1. SSH: you need to use ssh potocol to access your server by [Putty](https://www.hostinger.com/tutorials/how-to-use-putty-ssh).
@@ -220,5 +290,12 @@ Purpose: Deploy a new staking pool for your validator. Do operations on your sta
     # Check version of nearcore
     ./target/release/neard -V
     neard (release trunk) (build crates-0.14.0-266-g0d7f272af) (rustc 1.62.0) (protocol 100) (db 31)
+    
+    # Restart node
+    systemctl restart neard
+    
+    # run this command to monitor log
+    journalctl -n 100 -f -u neard
     ```
-https://portal.aws.amazon.com/billing/signup#/start/email
+    
+
