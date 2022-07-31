@@ -167,13 +167,13 @@ Purpose: This challenge is focused on deploying a node (nearcore), downloading a
     # Change from
     {
     "account_id":"tsukement1102.shardnet.near",
-    "public_key":"ed25519:6FKuzv1qA9G6YxseWJD9YooQZb3a8qhDnPAhHb3sdRJD",
+    "public_key":"ed25519:9sQrqZkwVp2n4t8uPxAB7KKiD1Aa1TwBGVK1iy3uX8uj",
     "private_key":"ed25519:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     }
     # to this
     {
     "account_id":"tsukement1102.factory.shardnet.near",
-    "public_key":"ed25519:6FKuzv1qA9G6YxseWJD9YooQZb3a8qhDnPAhHb3sdRJD",
+    "public_key":"ed25519:9sQrqZkwVp2n4t8uPxAB7KKiD1Aa1TwBGVK1iy3uX8uj",
     "secret_key":"ed25519:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     }
     # Then save the file
